@@ -159,3 +159,12 @@ def test_assert_tensor_equal_floating_point():
             ptu.assert_tensor_equal(tensor1, tensor2, assert_meta_equal=False)
     except AssertionError:
         pass
+
+
+def test_approx():
+    rel = 1e-6
+    abs = 0.0
+    approx_value = ptu.approx(torch.tensor(1.0), rel=rel, abs=abs)
+
+    assert 1.0 + 0.9 * rel == approx_value
+    assert approx_value == 1.0 + 0.9 * rel
