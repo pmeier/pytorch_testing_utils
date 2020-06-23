@@ -44,7 +44,7 @@ def test_import(subtests):
         public_modules.extend(find_modules(PACKAGE_ROOT, package=package))
 
     for module in itertools.chain(public_packages, public_modules):
-        with subtests.tests(module=module):
+        with subtests.test(module=module):
             import_module(f".{module}", package=PACKAGE_NAME)
 
 

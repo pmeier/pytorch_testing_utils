@@ -5,8 +5,8 @@ We appreciate all contributions. If you are planning to contribute bug-fixes or
 documentation improvements, please open a
 `pull request (PR) <https://github.com/pmeier/pytorch_testing_utils/pulls>`_
 without further discussion. If you planning to contribute new features, please open an
-`issue <https://github.com/pmeier/pytorch_testing_utils/issues>`_
-and discuss the feature with us first.
+`issue <https://github.com/pmeier/pytorch_testing_utils/issues>`_ and discuss it with
+us first.
 
 Every PR is subjected to multiple checks that it has to pass before it can be merged.
 The checks are performed by `tox <https://tox.readthedocs.io/en/latest/>`_ . You can
@@ -23,13 +23,14 @@ Below you can find details and instructions how to run the checks locally.
 Code format and linting
 -----------------------
 
-``pytorch_testing_utils`` uses `isort <https://timothycrosley.github.io/isort/>`_ to sort the
-imports, `black <https://black.readthedocs.io/en/stable/>`_ to format the code, and
-`flake8 <https://flake8.pycqa.org/en/latest/>`_ to enforce
+``pytorch_testing_utils`` uses `isort <https://timothycrosley.github.io/isort/>`_ to
+sort the imports, `black <https://black.readthedocs.io/en/stable/>`_ to format the
+code, and `flake8 <https://flake8.pycqa.org/en/latest/>`_ to enforce
 `PEP8 <https://www.python.org/dev/peps/pep-0008/>`_ compliance.
 
-Furthermore, ``pytorch_testing_utils`` is `PEP561 <https://www.python.org/dev/peps/pep-0561/>`_
-compliant and checks the type annotations with `mypy <http://mypy-lang.org/>`_ .
+Furthermore, ``pytorch_testing_utils`` is
+`PEP561 <https://www.python.org/dev/peps/pep-0561/>`_ compliant and checks the type
+annotations with `mypy <http://mypy-lang.org/>`_ .
 
 To format your code run
 
@@ -57,7 +58,8 @@ To run the lint check locally run
     pre-commit install
 
   ``mypy`` is excluded from this, since the pre-commit runs in a separate virtual
-  environment in which ``pytorch_testing_utils`` would have to be installed in for every commit.
+  environment in which ``pytorch_testing_utils`` would have to be installed in for
+  every commit.
 
 
 Tests
