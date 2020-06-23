@@ -2,7 +2,9 @@ import warnings
 from typing import Any, Optional, cast
 
 import numpy as np
+import pytest
 import torch
+from _pytest.python_api import ApproxBase
 
 __all__ = [
     "assert_tensor_size_equal",
@@ -13,6 +15,7 @@ __all__ = [
     "assert_tensor_meta_equal",
     "assert_tensor_equal",
     "assert_tensor_allclose",
+    "approx",
 ]
 
 
@@ -141,3 +144,14 @@ def assert_tensor_allclose(
         verbose=verbose,
         err_msg=msg,
     )
+
+
+def approx(
+    expected: Any,
+    rel: Optional[float] = None,
+    abs: Optional[float] = None,
+    nan_ok: bool = False,
+) -> ApproxBase:
+    if isinstance(expected, torch.Tensor):
+        expected = _to_numpy(expected)
+    return pytest.approx(expected, rel=rel, abs=abs, nan_ok=nan_ok)
