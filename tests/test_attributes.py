@@ -8,23 +8,6 @@ import pytorch_testing_utils as ptu
 from .marks import skip_if_cuda_not_available
 
 
-def test_assert_tensor_size_equal(subtests):
-    sizes = [torch.Size(range(1, dims + 1)) for dims in range(1, 5)]
-
-    for size in sizes:
-        tensor1 = torch.empty(size)
-        tensor2 = torch.empty(size)
-        with subtests.test(size1=size, size2=size):
-            ptu.assert_tensor_size_equal(tensor1, tensor2)
-
-    for size1, size2 in itertools.permutations(sizes, 2):
-        tensor1 = torch.empty(size1)
-        tensor2 = torch.empty(size2)
-        with subtests.test(size1=size1, size2=size2):
-            with pytest.raises(AssertionError):
-                ptu.assert_tensor_size_equal(tensor1, tensor2)
-
-
 def test_assert_tensor_dtype_equal(subtests):
     dtypes = (
         torch.float32,
@@ -115,56 +98,3 @@ def test_assert_tensor_device_equal(subtests):
 #         ):
 #             with pytest.raises(AssertionError):
 #                 ptu.assert_tensor_memory_format_equal(tensor1, tensor2)
-
-
-def test_assert_tensor_allclose():
-    tensor1 = torch.sqrt(torch.tensor(2.0))
-    tensor2 = torch.tensor(2.0) / torch.sqrt(torch.tensor(2.0))
-    tensor3 = torch.tensor(577.0 / 408.0)
-
-    ptu.assert_tensor_allclose(tensor1, tensor2)
-
-    with pytest.raises(AssertionError):
-        ptu.assert_tensor_allclose(tensor1, tensor3)
-
-    ptu.assert_tensor_allclose(tensor1, tensor3, rtol=1e-5)
-
-
-def test_assert_tensor_allclose_meta():
-    tensor1 = torch.tensor(1.0, dtype=torch.float32)
-    tensor2 = torch.tensor(1, dtype=torch.int32)
-
-    with pytest.raises(AssertionError):
-        ptu.assert_tensor_allclose(tensor1, tensor2)
-
-    ptu.assert_tensor_allclose(tensor1, tensor2, assert_meta_equal=False)
-
-
-def test_assert_tensor_equal_meta():
-    tensor1 = torch.tensor(1, dtype=torch.int32)
-    tensor2 = torch.tensor(1, dtype=torch.int64)
-
-    with pytest.raises(AssertionError):
-        ptu.assert_tensor_equal(tensor1, tensor2)
-
-    ptu.assert_tensor_equal(tensor1, tensor2, assert_meta_equal=False)
-
-
-def test_assert_tensor_equal_floating_point():
-    tensor1 = torch.tensor(1, dtype=torch.int32)
-    tensor2 = torch.tensor(1, dtype=torch.float32)
-
-    try:
-        with pytest.warns(RuntimeWarning):
-            ptu.assert_tensor_equal(tensor1, tensor2, assert_meta_equal=False)
-    except AssertionError:
-        pass
-
-
-def test_approx():
-    rel = 1e-6
-    abs = 0.0
-    approx_value = ptu.approx(torch.tensor(1.0), rel=rel, abs=abs)
-
-    assert 1.0 + 0.9 * rel == approx_value
-    assert approx_value == 1.0 + 0.9 * rel
