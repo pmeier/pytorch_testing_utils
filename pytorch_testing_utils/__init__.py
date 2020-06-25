@@ -2,7 +2,6 @@ import warnings
 from os import path
 
 from .__about__ import *
-from .tensor import *
 
 try:
     with open(path.join(path.dirname(__file__), "__version__"), "r") as fh:
@@ -14,3 +13,8 @@ except FileNotFoundError:
     )
     warnings.warn(msg)
     __version__ = __base_version__
+
+from .attributes import *
+from .values import *
+from .container import *
+from .auto import *
