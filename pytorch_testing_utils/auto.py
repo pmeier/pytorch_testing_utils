@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from typing import Any, Callable
 
 import torch
@@ -18,9 +19,6 @@ def assert_allclose(actual: Any, desired: Any, **tensor_allclose_kwargs: Any,) -
     _assert_by_type(
         _tensor_allclose_asserter(**tensor_allclose_kwargs), actual, desired,
     )
-
-
-from collections.abc import Sequence
 
 
 def _assert_by_type(
