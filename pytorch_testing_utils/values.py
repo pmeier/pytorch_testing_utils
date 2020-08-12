@@ -42,7 +42,9 @@ def assert_tensor_equal(
     if attributes:
         assert_tensor_attributes_equal(actual, desired, msg=msg, **attribute_kwargs)
 
-    is_floating_point = actual.dtype.is_floating_point or desired.dtype.is_floating_point  # type: ignore[attr-defined]
+    is_floating_point = (
+        actual.dtype.is_floating_point or desired.dtype.is_floating_point
+    )
     if is_floating_point and warn_floating_point:
         msg = (
             "Due to the limitations of floating point arithmetic, comparing "
