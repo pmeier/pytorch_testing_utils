@@ -6,7 +6,7 @@ repos:
         args: [--filter-files, --check-only]
         additional_dependencies: [toml]
   - repo: https://github.com/psf/black
-    rev: stable
+    rev: 19.10b0
     hooks:
       - id: black
         args: [--check]
