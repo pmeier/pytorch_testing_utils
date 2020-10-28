@@ -63,7 +63,7 @@ with open(path.join(PACKAGE_ROOT, version_file), "w") as fh:
     fh.write(__version__)
 package_data = {PACKAGE_NAME: [version_file, "py.typed"]}
 
-install_requires = ("numpy >= 1.5", "pytest", "torch==1.6")
+install_requires = ("numpy >= 1.5", "pytest", "torch==1.6.0")
 
 classifiers = [
     "Development Status :: 3 - Alpha",
