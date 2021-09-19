@@ -1,10 +1,10 @@
 import warnings
-from typing import Any, Callable, Optional, cast
+from typing import Any, Callable, Optional, Union, cast
 
 import numpy as np
 import pytest
 import torch
-from _pytest.python_api import ApproxBase
+from _pytest.python_api import ApproxBase, ApproxNumpy
 
 from .attributes import assert_tensor_attributes_equal
 
@@ -19,15 +19,33 @@ def _to_numpy(x: torch.Tensor) -> np.ndarray:
     return cast(np.ndarray, x.detach().cpu().numpy())
 
 
+class ApproxPytorch(ApproxNumpy):
+    def __init__(self, expected: torch.Tensor, **kwargs: Any):
+        super().__init__(self._cast(expected), **kwargs)
+
+    def __eq__(self, actual: Any) -> bool:
+        if isinstance(actual, torch.Tensor):
+            actual = self._cast(actual)
+        return super().__eq__(actual)
+
+    def _cast(self, x: torch.Tensor) -> Union[float, np.ndarray]:
+        is_scalar = x.dim() == 0
+        if is_scalar:
+            return x.detach().cpu().item()
+        else:
+            return _to_numpy(x)
+
+
 def approx(
     expected: Any,
     rel: Optional[float] = None,
     abs: Optional[float] = None,
     nan_ok: bool = False,
 ) -> ApproxBase:
-    if isinstance(expected, torch.Tensor):
-        expected = _to_numpy(expected)
-    return pytest.approx(expected, rel=rel, abs=abs, nan_ok=nan_ok)
+    approximator = (
+        ApproxPytorch if isinstance(expected, torch.Tensor) else pytest.approx
+    )
+    return approximator(expected, rel=rel, abs=abs, nan_ok=nan_ok)
 
 
 def assert_tensor_equal(
